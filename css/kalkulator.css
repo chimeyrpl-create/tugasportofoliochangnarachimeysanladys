@@ -39,7 +39,7 @@ nav ul li a {
     font-size: 0.9rem;
 }
 
-/* Main Content Container */
+/* Main */
 main {
     flex: 1;
     display: flex;
@@ -48,7 +48,7 @@ main {
     padding: 40px 20px;
 }
 
-/* Card Layout */
+/* Card */
 .card {
     background: white;
     width: 100%;
@@ -70,7 +70,7 @@ main {
     margin-bottom: 20px;
 }
 
-/* Form Inputs */
+/* Form */
 .input-group {
     margin-bottom: 15px;
 }
