@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
 </head>
 <body>
   <header>
@@ -20,7 +21,6 @@
           <li><a href="kontak.html">Kontak</a></li>
         </ul>
       </nav>
-      <!-- Tantangan: menu ponsel yang bisa dibuka-tutup -->
       <details class="menu-ponsel">
         <summary>Menu</summary>
         <nav>
@@ -31,6 +31,7 @@
           </ul>
         </nav>
       </details>
+      <button type="button" id="tombol-tema" class="tombol-tema">Mode Gelap</button>
     </div>
   </header>
 
@@ -64,7 +65,8 @@
           </p>
           <p>
             <label for="pesan">Pesan</label><br>
-            <textarea id="pesan" name="pesan" rows="5" cols="40" placeholder="Tulis pesanmu di sini" required></textarea>
+            <textarea id="pesan" name="pesan" rows="5" cols="40" maxlength="300" placeholder="Tulis pesanmu di sini" required></textarea><br>
+            <span id="hitung-karakter" class="keterangan">0/300 karakter</span>
           </p>
           <button type="submit">Kirim Pesan</button>
         </form>
@@ -76,7 +78,4 @@
     <p>Kontak: <a href="mailto:chimeyrpl@gmail.com">chimeyrpl@gmail.com</a> |
       <a href="https://github.com/chimeyrpl-create" target="_blank">GitHub</a> |
       <a href="https://youtube.com/@changnara09?si=5zUnjG6dfMdZkvKN" target="_blank">YouTube</a></p>
-    <p>&copy; 2026 Chang Nara Chimey Sanladys. Dibuat di Kelas Industri UBIG.</p>
-  </footer>
-</body>
-</html>
+    <p>&copy; 2026 Chang Nara Chimey Sanladys. Dibuat di Kelas Indus

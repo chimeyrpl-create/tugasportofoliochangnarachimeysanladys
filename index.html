@@ -8,7 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-</head> 
+  <script src="main.js" defer></script>
+</head>
 <body>
   <header>
     <div class="container navbar">
@@ -21,7 +22,6 @@
           <li><a href="kalkulator.html">Kalkulator</a></li>
         </ul>
       </nav>
-      <!-- Tantangan: menu ponsel yang bisa dibuka-tutup -->
       <details class="menu-ponsel">
         <summary>Menu</summary>
         <nav>
@@ -33,13 +33,14 @@
           </ul>
         </nav>
       </details>
+      <button type="button" id="tombol-tema" class="tombol-tema">Mode Gelap</button>
     </div>
   </header>
 
   <main>
     <div class="container">
       <section class="hero">
-        <img src="img/CHIMEYY.jpeg" alt="Foto profil Andi Pratama" width="180">
+        <img src="img/CHIMEYY.jpeg" alt="Foto profil Chimey" width="180">
         <div>
           <h2>Halo, saya Chimey!</h2>
           <p>Siswa kelas X SMK, calon Junior Web Developer di Kelas Industri UBIG.</p>
@@ -74,11 +75,8 @@
 
         <section class="kartu">
           <h2>Keahlian</h2>
-          <ul>
-            <li>HTML dasar (sedang dipelajari)</li>
-            <li>Mengetik cepat</li>
-            <li>Desain poster dengan Canva</li>
-          </ul>
+          <ul id="daftar-skill"></ul>
+          <p id="jumlah-skill"></p>
         </section>
       </div>
 
@@ -114,7 +112,6 @@
       </section>
     </div>
   </main>
-<script src="latihan.js" defer></script>
   <footer>
     <p>Kontak: <a href="mailto:chimeyrpl@gmail.com">chimeyrpl@gmail.com</a> |
       <a href="https://github.com/chimeyrpl-create" target="_blank">GitHub</a> |
