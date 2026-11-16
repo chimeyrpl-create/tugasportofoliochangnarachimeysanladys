@@ -10,6 +10,8 @@ const daftarSkill = document.querySelector("#daftar-skill");
 const jumlahSkill = document.querySelector("#jumlah-skill");
 
 async function muatKeahlian() {
+  if (!daftarSkill || !jumlahSkill) return;
+
   try {
     const response = await fetch("data/keahlian.json");
 
@@ -23,9 +25,7 @@ async function muatKeahlian() {
 
     skills.forEach((skill) => {
       const item = document.createElement("li");
-
       item.textContent = `${skill.nama} (${skill.level})`;
-
       daftarSkill.appendChild(item);
     });
 
@@ -33,16 +33,12 @@ async function muatKeahlian() {
       `Ada ${skills.length} keahlian yang sedang saya kembangkan.`;
 
   } catch (error) {
-    jumlahSkill.textContent =
-      "Daftar keahlian gagal dimuat.";
-
+    jumlahSkill.textContent = "Daftar keahlian gagal dimuat.";
     console.error("Gagal memuat keahlian:", error);
   }
 }
 
-if (daftarSkill && jumlahSkill) {
-  muatKeahlian();
-}
+muatKeahlian();
 
 
 // =====================================================
@@ -53,15 +49,12 @@ const tombolTema = document.querySelector("#tombol-tema");
 
 if (tombolTema) {
   tombolTema.addEventListener("click", () => {
-
     document.body.classList.toggle("gelap");
 
-    if (document.body.classList.contains("gelap")) {
-      tombolTema.textContent = "Mode Terang";
-    } else {
-      tombolTema.textContent = "Mode Gelap";
-    }
-
+    tombolTema.textContent =
+      document.body.classList.contains("gelap")
+        ? "Mode Terang"
+        : "Mode Gelap";
   });
 }
 
@@ -74,14 +67,10 @@ const kotakPesan = document.querySelector("#pesan");
 const hitungKarakter = document.querySelector("#hitung-karakter");
 
 if (kotakPesan && hitungKarakter) {
-
   kotakPesan.addEventListener("input", () => {
-
     hitungKarakter.textContent =
       `${kotakPesan.value.length}/300 karakter`;
-
   });
-
 }
 
 
@@ -89,67 +78,39 @@ if (kotakPesan && hitungKarakter) {
 // 4. DAFTAR PROYEK DAN FILTER
 // =====================================================
 
-// Data proyek diambil dari proyek.json
 let proyek = [];
 
 const daftarProyek = document.querySelector("#daftar-proyek");
 const jumlahProyek = document.querySelector("#jumlah-proyek");
 
-
-// Membuat kartu proyek
 function buatKartu(item) {
-
   return `
     <article class="kartu">
-
       <span class="label">${item.kategori}</span>
-
       <h3>${item.judul}</h3>
-
-      <img
-        src="${item.gambar}"
-        alt="${item.alt}"
-        width="280"
-      >
-
+      <img src="${item.gambar}" alt="${item.alt}" width="280">
       <p>${item.deskripsi}</p>
-
     </article>
   `;
 }
 
-
-// Menampilkan proyek
 function tampilkanProyek(daftar) {
+  if (!daftarProyek || !jumlahProyek) return;
 
-  if (!daftarProyek || !jumlahProyek) {
-    return;
-  }
-
-  const semuaKartu = daftar.map((item) => {
-    return buatKartu(item);
-  });
-
-  daftarProyek.innerHTML = semuaKartu.join("");
+  daftarProyek.innerHTML =
+    daftar.map((item) => buatKartu(item)).join("");
 
   jumlahProyek.textContent =
     `Menampilkan ${daftar.length} dari ${proyek.length} proyek`;
 }
 
-
-// =====================================================
-// MENGAMBIL DATA DARI proyek.json
-// =====================================================
-
 async function muatProyek() {
+  if (!daftarProyek || !jumlahProyek) return;
 
   try {
+    jumlahProyek.textContent = "Memuat data proyek...";
 
-    jumlahProyek.textContent =
-      "Memuat data proyek...";
-
-    const response =
-      await fetch("data/proyek.json");
+    const response = await fetch("data/proyek.json");
 
     if (!response.ok) {
       throw new Error(`Status ${response.status}`);
@@ -157,7 +118,6 @@ async function muatProyek() {
 
     proyek = await response.json();
 
-    // Pastikan isi JSON berupa array
     if (!Array.isArray(proyek)) {
       throw new Error("Data proyek bukan array.");
     }
@@ -165,96 +125,47 @@ async function muatProyek() {
     tampilkanProyek(proyek);
 
   } catch (error) {
-
-    jumlahProyek.textContent =
-      "Data proyek gagal dimuat.";
-
-    console.error(
-      "Gagal memuat proyek:",
-      error
-    );
-
+    jumlahProyek.textContent = "Data proyek gagal dimuat.";
+    console.error("Gagal memuat proyek:", error);
   }
 }
 
-
-// =====================================================
-// FILTER PROYEK
-// =====================================================
-
 function pasangFilter(idTombol, kategori) {
+  const tombol = document.querySelector(idTombol);
 
-  const tombol =
-    document.querySelector(idTombol);
-
-  if (!tombol) {
-    return;
-  }
+  if (!tombol) return;
 
   tombol.addEventListener("click", () => {
-
-    // Ambil semua tombol filter
     const semuaTombol =
       document.querySelectorAll(".tombol-filter");
 
-    // Hapus class aktif dari semua tombol
     semuaTombol.forEach((item) => {
       item.classList.remove("aktif");
     });
 
-    // Tambahkan class aktif
-    // ke tombol yang sedang diklik
     tombol.classList.add("aktif");
 
-
-    // Jika memilih SEMUA
     if (kategori === "Semua") {
-
       tampilkanProyek(proyek);
-
       return;
     }
 
+    const hasilFilter = proyek.filter((item) =>
+      item.kategori.trim().toLowerCase() ===
+      kategori.trim().toLowerCase()
+    );
 
-    // Filter berdasarkan kategori
-    const hasilFilter =
-      proyek.filter((item) => {
-
-        return (
-          item.kategori.trim().toLowerCase() ===
-          kategori.trim().toLowerCase()
-        );
-
-      });
-
-
-    // Tampilkan hasil filter
     tampilkanProyek(hasilFilter);
-
   });
 }
 
-
-// =====================================================
-// MENJALANKAN PROYEK DAN FILTER
-// =====================================================
-
 if (daftarProyek && jumlahProyek) {
-
-  // Ambil data proyek dari JSON
   muatProyek();
 
-  // Pasang tombol filter
   pasangFilter("#filter-semua", "Semua");
-
   pasangFilter("#filter-html", "HTML");
-
   pasangFilter("#filter-css", "CSS");
-
-  pasangFilter(
-    "#filter-javascript",
-    "JavaScript"
-  );
+  pasangFilter("#filter-javascript", "JavaScript");
 }
 
 
@@ -265,79 +176,64 @@ if (daftarProyek && jumlahProyek) {
 const username = "chimeyrpl-create";
 
 const alamatRepo =
-  `https://api.github.com/users/${username}/repos`;
+  `https://api.github.com/users/${username}/repos?sort=updated&per_page=6`;
 
-const pilihan =
-  "?sort=updated&per_page=6";
+const daftarRepo = document.querySelector("#daftar-repo");
+const statusRepo = document.querySelector("#status-repo");
 
-const daftarRepo =
-  document.querySelector("#daftar-repo");
-
-const statusRepo =
-  document.querySelector("#status-repo");
-
-
-// Mengambil repositori GitHub
 async function ambilRepo() {
+  if (!daftarRepo || !statusRepo) return;
 
   try {
+    statusRepo.textContent = "Memuat repositori GitHub...";
 
-    const response =
-      await fetch(alamatRepo + pilihan);
+    const response = await fetch(alamatRepo);
 
     if (!response.ok) {
       throw new Error(`Status ${response.status}`);
     }
 
-    const repos =
-      await response.json();
+    const repos = await response.json();
+
+    if (!Array.isArray(repos) || repos.length === 0) {
+      statusRepo.textContent =
+        "Belum ada repositori yang ditemukan.";
+
+      daftarRepo.innerHTML = "";
+      return;
+    }
 
     daftarRepo.innerHTML = "";
 
     repos.forEach((repo) => {
+      const item = document.createElement("li");
+      const tautan = document.createElement("a");
 
-      const item =
-        document.createElement("li");
-
-      const tautan =
-        document.createElement("a");
-
-      tautan.href =
-        repo.html_url;
-
-      tautan.target =
-        "_blank";
-
-      tautan.rel =
-        "noopener noreferrer";
-
-      tautan.textContent =
-        repo.name;
+      tautan.href = repo.html_url;
+      tautan.target = "_blank";
+      tautan.rel = "noopener noreferrer";
+      tautan.textContent = repo.name;
 
       item.appendChild(tautan);
-
       daftarRepo.appendChild(item);
-
     });
 
     statusRepo.textContent =
-      `${repos.length} repositori yang terakhir diperbarui:`;
+      `${repos.length} repositori GitHub terbaru berhasil dimuat.`;
 
   } catch (error) {
-
     statusRepo.textContent =
-      "Repositori GitHub gagal dimuat.";
+      "Repositori GitHub gagal dimuat. Silakan coba lagi.";
 
-    console.error(
-      "Gagal mengambil repositori:",
-      error
-    );
+    daftarRepo.innerHTML = "";
 
+    console.error("Gagal mengambil repositori:", error);
   }
 }
 
+ambilRepo();
 
-// Jalankan GitHub API
-if (daftarRepo && statusRepo) {
-  ambilRepo();
-}
+
+// =====================================================
+// SELESAI
+// =====================================================
