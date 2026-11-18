@@ -64,7 +64,7 @@ if (tombolTema) {
 // =====================================================
 
 const kotakPesan = document.querySelector("#pesan");
-const hitungKarakter = document.querySelector("#hitung-karakter");
+const hitungKarakter = document.querySelector("#hitung-karakter.hampir-penuh");
 
 if (kotakPesan && hitungKarakter) {
   kotakPesan.addEventListener("input", () => {
